@@ -9,27 +9,30 @@ import 'measure_size.dart';
 
 /// Show the row of [_DayCell] cells with events
 class DaysRow extends StatelessWidget {
-  const DaysRow({
-    required this.visiblePageDate,
-    required this.dates,
-    required this.dateTextStyle,
+  DaysRow({
+    required visiblePageDate,
+    required dates,
+    required dateTextStyle,
     Key? key,
-  }) : super(key: key);
+    Border? border,
+  }) : super(key: key) {
+    this.visiblePageDate = visiblePageDate;
+    this.dates = dates;
+    this.dateTextStyle = dateTextStyle;
+    this.border = border;
+  }
 
-  final List<DateTime> dates;
-  final DateTime visiblePageDate;
-  final TextStyle? dateTextStyle;
+  List<DateTime>? dates;
+  DateTime? visiblePageDate;
+  TextStyle? dateTextStyle;
+  Border? border;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Row(
-        children: dates.map((date) {
-          return _DayCell(
-            date,
-            visiblePageDate,
-            dateTextStyle,
-          );
+        children: dates!.map((date) {
+          return _DayCell(date, visiblePageDate!, dateTextStyle, border);
         }).toList(),
       ),
     );
@@ -40,11 +43,12 @@ class DaysRow extends StatelessWidget {
 ///
 /// Its height is circulated by [MeasureSize] and notified by [CellHeightController]
 class _DayCell extends StatelessWidget {
-  _DayCell(this.date, this.visiblePageDate, this.dateTextStyle);
+  _DayCell(this.date, this.visiblePageDate, this.dateTextStyle, this.border);
 
   final DateTime date;
   final DateTime visiblePageDate;
   final TextStyle? dateTextStyle;
+  final Border? border;
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +64,8 @@ class _DayCell extends StatelessWidget {
         },
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-              right:
-                  BorderSide(color: Theme.of(context).dividerColor, width: 1),
-            ),
-          ),
+              //color: Colors.grey[300],
+              border: border),
           child: MeasureSize(
             onChange: (size) {
               if (size == null) return;
@@ -110,14 +110,14 @@ class _TodayLabel extends StatelessWidget {
     final caption = Theme.of(context)
         .textTheme
         .caption!
-        .copyWith(fontWeight: FontWeight.w500);
+        .copyWith(fontWeight: FontWeight.w700);
     final textStyle = caption.merge(dateTextStyle);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 2),
       height: 20,
       width: 20,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
+        shape: BoxShape.rectangle,
         color: config.todayMarkColor,
       ),
       child: Center(

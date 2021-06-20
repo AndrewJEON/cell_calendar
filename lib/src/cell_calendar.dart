@@ -170,6 +170,12 @@ class _CalendarPage extends StatelessWidget {
                   visiblePageDate: visiblePageDate,
                   dates: days.getRange(index * 7, (index + 1) * 7).toList(),
                   dateTextStyle: dateTextStyle,
+                  // border: Border(
+                  //   top: BorderSide(
+                  //       color: Theme.of(context).dividerColor, width: 1),
+                  //   // right: BorderSide(
+                  //   //     color: Theme.of(context).dividerColor, width: 1),
+                  // ),
                 );
               },
             ),
